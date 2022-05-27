@@ -4,6 +4,9 @@ import { StatusBar } from "expo-status-bar";
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import logo from "./assets/logo.png";
 import * as ImagePicker from "expo-image-picker";
+import * as Sharing from "expo-sharing";
+import { Platform } from "expo-modules-core";
+
 
 export default function App() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -25,6 +28,15 @@ export default function App() {
     setSelectedImage({ localUri: pickerResult.uri });
   };
 
+  let OpenShareDialogAsync = async () => {
+    if (Platform.OS === "web") {
+      alert(`Uh oh, sharing isn't available on your platform`);
+      return;
+    }
+
+    await Sharing.shareAsync(selectedImage.localUri); // funçoes da lib expo-sharin de acordo com o tutorial , react native n tem uma opção nativa
+  };
+
   if (selectedImage) {
     return (
       <View style={styles.container}>
@@ -32,6 +44,9 @@ export default function App() {
           source={{ uri: selectedImage.localUri }}
           style={styles.thumbnail}
         />
+        <TouchableOpacity style={styles.button} onPress={OpenShareDialogAsync}>
+          <Text>Share this photo</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -70,6 +85,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   button: {
+    marginTop: 10,
     width: "95%",
     alignItems: "center",
     backgroundColor: "blue",
@@ -90,4 +106,9 @@ const styles = StyleSheet.create({
 /* obs do estudo: Apesar do tutorial oficial apresentado na doc dizer que devo especificar a lagura e altura da imagem, de acordo com os meus testes não é realmente necessário para a imagem ser inserida dentro da minha view
 
 - posso ultilizar no local da uri um link da web por exemplo: https://i.imgur.com/TkIrScD.png
+- tutorial finalizado em um arquivo obs a serem analisadas: 
+    - separar style, funçoes e childs? 
+    - verificar libs como style components
+    - acessibilidades
+    - build and deploy?
  */
