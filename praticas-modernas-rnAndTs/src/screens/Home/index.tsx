@@ -1,8 +1,9 @@
 import React from "react";
 
-import { Container, Header } from "./styles";
+import { Container, Header, Content } from "./styles";
 
 import { Input } from "../../components/Input";
+import { Card } from "../../components/Card/";
 
 import bannerImg from "../../assets/kaysa-banner.png";
 
@@ -10,8 +11,11 @@ const Home = () => {
   return (
     <Container>
       <Header source={bannerImg}>
-        <Input placeholder='pesquisar seu champ favorito...'/>
+        <Input placeHolder="Pesquise seu champ favorito..." />
       </Header>
+      <Content>
+        <Card />
+      </Content>
     </Container>
   );
 };

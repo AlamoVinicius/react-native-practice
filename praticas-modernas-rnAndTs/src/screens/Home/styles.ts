@@ -9,3 +9,9 @@ export const Header =  styled.ImageBackground`
   justify-content: flex-end;
   padding: 0 24px 16px;
 `;
+
+export const Content = styled.View `
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
