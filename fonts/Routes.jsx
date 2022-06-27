@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import infoContext from "./context";
+import axios from "axios";
 
 import { Button } from "react-native";
 
@@ -14,8 +15,19 @@ const HomeStack = createNativeStackNavigator();
 export const HomeStackScreen = () => {
   const [badgeValue, setBadgeValue] = useState(0);
 
+  useEffect(() => {
+    const fetchApi = async () => {
+      const usersapi = await axios.get(
+        `https://randomuser.me/api/?page=1&results=10&seed=abc`
+      );
+      setBadgeValue(usersapi.data.results.length)
+    }
+    fetchApi()
+  }, [])
+  
+
   return (
-    <infoContext.Provider value={{ setBadgeValue }}>
+    <infoContext.Provider value={{ setBadgeValue, badgeValue }}>
       <HomeStack.Navigator>
         <HomeStack.Screen name="HomePage" component={HomeScreen} />
         <Tab.Screen

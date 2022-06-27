@@ -22,7 +22,6 @@ export default FlatListScreen = () => {
   const [loading, setLoading] = useState(true);
   const { setBadgeValue } = useContext(infoContext);
   const [currentPage, setCurrentPage] = useState(1);
-  let qtde = users.length
   const getUsers = async () => {
     setLoading(true);
     try {
@@ -30,8 +29,7 @@ export default FlatListScreen = () => {
         `https://randomuser.me/api/?page=${currentPage}&results=10&seed=abc`
       );
       setUsers([...users, ...usersapi.data.results]);
-      qtde += usersapi.data.results.length
-      setBadgeValue(qtde); // atualiza o badget do pai conforme atualização
+      setBadgeValue(users.length + usersapi.data.results.length); // atualiza o badget do pai conforme atualização
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -44,11 +42,11 @@ export default FlatListScreen = () => {
   }, [currentPage]);
 
   const renderLoader = () => {
-    return  (loading ?
+    return loading ? (
       <View style={styles.loader}>
         <ActivityIndicator size="large" color="#aaa" />
       </View>
-    : null) ;
+    ) : null;
   };
 
   const loadMoreItem = () => {
